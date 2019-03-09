@@ -1,37 +1,29 @@
 package sample;
 
 import Shapes.*;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.ColorPicker;
-
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyListener;
-import java.util.ResourceBundle;
-import java.net.URL;
-
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class Controller  {
+
+public class Controller {
     @FXML
     private ResourceBundle resources;
 
     @FXML
     private URL location;
-    @FXML
-    private Button square;
 
-    public  static boolean flagShift=false;
+    public static boolean flagShift = false;
     @FXML
     private ColorPicker colorPick;
 
@@ -55,14 +47,19 @@ public class Controller  {
     public Canvas canvas;
 
     @FXML
+    private Button line;
+
+    @FXML
     void initialize() {
         Brush.paintTool = canvas.getGraphicsContext2D();
         MyCircle.paintTool = canvas.getGraphicsContext2D();
         MyEllipse.paintTool = canvas.getGraphicsContext2D();
         MyRectangle.paintTool = canvas.getGraphicsContext2D();
+        MyLine.paintTool=canvas.getGraphicsContext2D();
         Circle circle = new Circle();
         Ellipse ellipse = new Ellipse();
         Rectangle rectangle = new Rectangle();
+        Line line=new Line();
 
         canvas.setOnMouseDragged(event -> {
             double size;
@@ -99,6 +96,11 @@ public class Controller  {
                 MyRectangle.drawPressed(colorPick, linePick);
                 rectangle.setX(event.getX());
                 rectangle.setY(event.getY());
+            }
+            if (MyLine.flag){
+                MyLine.drawPressed(colorPick);
+                line.setStartX(event.getX());
+                line.setStartY(event.getY());
             }
 
         });
@@ -142,8 +144,8 @@ public class Controller  {
                 MyRectangle.paintTool.fillRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
                 MyRectangle.paintTool.strokeRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
             }
-            if (MyRectangle.flag && flagShift){
-                rectangle.setWidth(Math.abs(event.getY()-rectangle.getY()));
+            if (MyRectangle.flag && flagShift) {
+                rectangle.setWidth(Math.abs(event.getY() - rectangle.getY()));
                 rectangle.setHeight(rectangle.getWidth());
                 if (rectangle.getX() > event.getX()) {
                     rectangle.setX(event.getX());
@@ -154,6 +156,11 @@ public class Controller  {
                 MyRectangle.paintTool.fillRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
                 MyRectangle.paintTool.strokeRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
             }
+            if (MyLine.flag){
+                line.setEndX(event.getX());
+                line.setEndY(event.getY());
+                MyLine.paintTool.strokeLine(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
+            }
         });
     }
 
@@ -163,6 +170,7 @@ public class Controller  {
         MyCircle.flag = false;
         MyEllipse.flag = false;
         MyRectangle.flag = false;
+        MyLine.flag = false;
         if (Brush.flag) {
             brush.setStyle("-fx-background-color: yellow;");
         }
@@ -172,6 +180,7 @@ public class Controller  {
         circle.setStyle("-fx-background-color: white;");
         ellipse.setStyle("-fx-background-color: white;");
         rectangle.setStyle("-fx-background-color: white;");
+        line.setStyle("-fx-background-color: white;");
     }
 
     @FXML
@@ -180,6 +189,7 @@ public class Controller  {
         Brush.flag = false;
         MyEllipse.flag = false;
         MyRectangle.flag = false;
+        MyLine.flag = false;
         if (MyCircle.flag) {
             circle.setStyle("-fx-background-color: yellow;");
         }
@@ -189,6 +199,7 @@ public class Controller  {
         brush.setStyle("-fx-background-color: white;");
         ellipse.setStyle("-fx-background-color: white;");
         rectangle.setStyle("-fx-background-color: white;");
+        line.setStyle("-fx-background-color: white;");
     }
 
     @FXML
@@ -197,9 +208,11 @@ public class Controller  {
         MyCircle.flag = false;
         Brush.flag = false;
         MyRectangle.flag = false;
+        MyLine.flag = false;
         brush.setStyle("-fx-background-color: white;");
         circle.setStyle("-fx-background-color: white;");
         rectangle.setStyle("-fx-background-color: white;");
+        line.setStyle("-fx-background-color: white;");
         if (MyEllipse.flag) {
             ellipse.setStyle("-fx-background-color: yellow;");
         }
@@ -213,16 +226,37 @@ public class Controller  {
     void rctClickPress(MouseEvent event) {
         MyEllipse.flag = false;
         MyCircle.flag = false;
+        MyLine.flag = false;
         Brush.flag = false;
         MyRectangle.flag = !MyRectangle.flag;
         brush.setStyle("-fx-background-color: white;");
         circle.setStyle("-fx-background-color: white;");
         ellipse.setStyle("-fx-background-color: white;");
+        line.setStyle("-fx-background-color: white;");
         if (MyRectangle.flag) {
             rectangle.setStyle("-fx-background-color: yellow;");
         }
         if (!MyRectangle.flag) {
             rectangle.setStyle("-fx-background-color: white;");
+        }
+    }
+
+    @FXML
+    void lineClickPress(MouseEvent event) {
+        MyLine.flag = !MyLine.flag;
+        Brush.flag = false;
+        MyRectangle.flag = false;
+        MyEllipse.flag = false;
+        MyCircle.flag = false;
+        brush.setStyle("-fx-background-color: white;");
+        circle.setStyle("-fx-background-color: white;");
+        ellipse.setStyle("-fx-background-color: white;");
+        rectangle.setStyle("-fx-background-color: white;");
+        if (MyLine.flag) {
+            line.setStyle("-fx-background-color: yellow;");
+        }
+        if (!MyLine.flag) {
+            line.setStyle("-fx-background-color: white;");
         }
     }
 }
