@@ -8,10 +8,10 @@ import sample.Controller;
 
 public class Brush {
     public static boolean flag;
-    public static GraphicsContext brushTool;
+    public static GraphicsContext paintTool;
 
-    public static void draw(ColorPicker colorPicker, double x, double y, double size){
-        brushTool.setFill(colorPicker.getValue());
-        brushTool.fillRoundRect(x, y, size, size, size, size);
+    public static void draw(ColorPicker colorPicker, double x, double y, double size) {
+        paintTool.setFill(colorPicker.getValue());
+        paintTool.fillRoundRect(x, y, size, size, size, size);
     }
 }
