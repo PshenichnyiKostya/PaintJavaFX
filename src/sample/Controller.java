@@ -161,6 +161,7 @@ public class Controller {
                 line.setEndY(event.getY());
                 MyLine.paintTool.strokeLine(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
             }
+
         });
     }
 
