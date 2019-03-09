@@ -57,7 +57,7 @@ public class Controller {
             }
            /* if (MyCircle.flag) {
 
-
+            ыщге
             }*/
 
         });
