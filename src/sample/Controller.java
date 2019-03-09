@@ -2,6 +2,7 @@ package sample;
 
 import Shapes.Brush;
 import Shapes.MyCircle;
+import Shapes.MyEllipse;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
 
@@ -14,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Ellipse;
 
 import static java.awt.Color.*;
 import static java.awt.Color.BLACK;
@@ -28,6 +30,9 @@ public class Controller {
 
     @FXML
     private ColorPicker colorPick;
+
+    @FXML
+    private Button ellipse;
 
     @FXML
     private ColorPicker linePick;
@@ -46,7 +51,9 @@ public class Controller {
     void initialize() {
         Brush.paintTool = canvas.getGraphicsContext2D();
         MyCircle.paintTool = canvas.getGraphicsContext2D();
+        MyEllipse.paintTool = canvas.getGraphicsContext2D();
         Circle circle = new Circle();
+        Ellipse ellipse = new Ellipse();
         canvas.setOnMouseDragged(event -> {
             double size;
             size = Double.parseDouble(brushSize.getText());
@@ -57,7 +64,7 @@ public class Controller {
             }
            /* if (MyCircle.flag) {
 
-            ыщге
+
             }*/
 
         });
@@ -69,9 +76,14 @@ public class Controller {
                 Brush.draw(colorPick, x, y, size);
             }
             if (MyCircle.flag) {
-                MyCircle.drawPressed(colorPick,linePick,circle);
+                MyCircle.drawPressed(colorPick, linePick);
                 circle.setCenterX(event.getX());
                 circle.setCenterY(event.getY());
+            }
+            if (MyEllipse.flag) {
+                MyEllipse.drawPressed(colorPick, linePick);
+                ellipse.setCenterX(event.getX());
+                ellipse.setCenterY(event.getY());
             }
 
         });
@@ -88,6 +100,20 @@ public class Controller {
                 MyCircle.paintTool.fillOval(circle.getCenterX(), circle.getCenterY(), circle.getRadius(), circle.getRadius());
                 MyCircle.paintTool.strokeOval(circle.getCenterX(), circle.getCenterY(), circle.getRadius(), circle.getRadius());
             }
+            if (MyEllipse.flag) {
+                ellipse.setRadiusX(Math.abs(event.getX() - ellipse.getCenterX()));
+                ellipse.setRadiusY(Math.abs(event.getY() - ellipse.getCenterY()));
+
+                if (ellipse.getCenterX() > event.getX()) {
+                    ellipse.setCenterX(event.getX());
+                }
+                if (ellipse.getCenterY() > event.getY()) {
+                    ellipse.setCenterY(event.getY());
+                }
+
+                 MyEllipse.paintTool.strokeOval(ellipse.getCenterX(), ellipse.getCenterY(), ellipse.getRadiusX(), ellipse.getRadiusY());
+                 MyEllipse.paintTool.fillOval(ellipse.getCenterX(), ellipse.getCenterY(), ellipse.getRadiusX(), ellipse.getRadiusY());
+            }
         });
     }
 
@@ -95,37 +121,46 @@ public class Controller {
     void brushClickPress(MouseEvent event) {
         Brush.flag = !Brush.flag;
         MyCircle.flag = false;
+        MyEllipse.flag = false;
         if (Brush.flag) {
             brush.setStyle("-fx-background-color: yellow;");
         }
         if (!Brush.flag) {
             brush.setStyle("-fx-background-color: white;");
         }
-        if (MyCircle.flag) {
-            circle.setStyle("-fx-background-color: yellow;");
-        }
-        if (!MyCircle.flag) {
-            circle.setStyle("-fx-background-color: white;");
-
-        }
+        circle.setStyle("-fx-background-color: white;");
+        ellipse.setStyle("-fx-background-color: white;");
     }
 
     @FXML
     void circleClickPress(MouseEvent event) {
         MyCircle.flag = !MyCircle.flag;
         Brush.flag = false;
+        MyEllipse.flag = false;
         if (MyCircle.flag) {
             circle.setStyle("-fx-background-color: yellow;");
         }
         if (!MyCircle.flag) {
             circle.setStyle("-fx-background-color: white;");
         }
-        if (Brush.flag) {
-            brush.setStyle("-fx-background-color: yellow;");
+        brush.setStyle("-fx-background-color: white;");
+        ellipse.setStyle("-fx-background-color: white;");
+    }
+
+    @FXML
+    void ellipseClickPress(MouseEvent event) {
+        MyEllipse.flag = !MyEllipse.flag;
+        MyCircle.flag = false;
+        Brush.flag = false;
+        brush.setStyle("-fx-background-color: white;");
+        circle.setStyle("-fx-background-color: white;");
+        if (MyEllipse.flag) {
+            ellipse.setStyle("-fx-background-color: yellow;");
         }
-        if (!Brush.flag) {
-            brush.setStyle("-fx-background-color: white;");
+        if (!MyEllipse.flag) {
+            ellipse.setStyle("-fx-background-color: white;");
         }
+
     }
 
 }
