@@ -55,9 +55,10 @@ public class Controller {
             if (Brush.flag && !brushSize.getText().isEmpty()) {
                 Brush.draw(colorPick, x, y, size);
             }
-            if (MyCircle.flag) {
+           /* if (MyCircle.flag) {
 
-            }
+
+            }*/
 
         });
         canvas.setOnMousePressed(event -> {
@@ -68,8 +69,7 @@ public class Controller {
                 Brush.draw(colorPick, x, y, size);
             }
             if (MyCircle.flag) {
-                MyCircle.paintTool.setStroke(linePick.getValue());
-                MyCircle.paintTool.setFill(colorPick.getValue());
+                MyCircle.drawPressed(colorPick,linePick,circle);
                 circle.setCenterX(event.getX());
                 circle.setCenterY(event.getY());
             }

@@ -12,27 +12,27 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox prefHeight="600.0" prefWidth="640.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
-  <children>
+
     <MenuBar VBox.vgrow="NEVER">
-      <menus>
+
         <Menu mnemonicParsing="false" text="Help">
-          <items>
+
             <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
+
         </Menu>
-      </menus>
+
     </MenuBar>
       <AnchorPane prefHeight="47.0" prefWidth="640.0" style="-fx-background-color: black;">
-         <children>
+
             <ColorPicker fx:id="colorPick" layoutY="-1.0" />
             <TextField fx:id="brushSize" layoutX="204.0" layoutY="-1.0" prefHeight="25.0" prefWidth="70.0" />
-            <Button fx:id="brush" layoutX="274.0" layoutY="-1.0" mnemonicParsing="false" onMouseClicked="#brushClickPress" style="-fx-border-style: g;" styleClass="buttons" text="Brush" />
-            <Button fx:id="circle" layoutX="320.0" layoutY="-1.0" mnemonicParsing="false" onMouseClicked="#circleClickPress" style="-fx-border-style: g;" styleClass="buttons" text="Circle" />
+            <Button fx:id="brush" layoutX="274.0" layoutY="-1.0" mnemonicParsing="false" onMouseClicked="#brushClickPress"  text="Brush" />
+            <Button fx:id="circle" layoutX="320.0" layoutY="-1.0" mnemonicParsing="false" onMouseClicked="#circleClickPress"  text="Circle" />
             <ColorPicker fx:id="linePick" layoutY="21.0" />
-            <Label layoutX="125.0" layoutY="3.0" prefHeight="17.0" prefWidth="46.0" style="-fx-background-color: gr;" text="Color" textFill="#fff8f8" />
+            <Label layoutX="125.0" layoutY="3.0" prefHeight="17.0" prefWidth="46.0" text="Color" textFill="#fff8f8" />
             <Label layoutX="125.0" layoutY="25.0" prefHeight="17.0" prefWidth="46.0" text="Stroke" textFill="#ebe5e5" />
-         </children>
+
       </AnchorPane>
       <Canvas fx:id="canvas" height="528.0" width="640.0" />
-  </children>
+
 </VBox>
