@@ -36,7 +36,7 @@ public class Main extends Application  {
             }
         });
         primaryStage.setScene(scene);
-        root.getStylesheets().add((getClass().getResource("/Style.css")).toExternalForm());
+//        root.getStylesheets().add((getClass().getResource("/Style.css")).toExternalForm());
         primaryStage.show();
     }
 

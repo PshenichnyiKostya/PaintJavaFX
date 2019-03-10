@@ -2,8 +2,6 @@ package Shapes;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Ellipse;
 
 public class MyEllipse {
     public static boolean flag;

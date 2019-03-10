@@ -71,10 +71,6 @@ public class Controller {
             double size;
             size = Double.parseDouble(brushSize.getText());
             getCoordinates(event, size);
-           /* if (MyCircle.flag) {
-
-
-            }*/
         });
         canvas.setOnMousePressed(event -> {
             double size = Double.parseDouble(brushSize.getText());
@@ -165,16 +161,6 @@ public class Controller {
             Brush.draw(colorPick, x, y, size);
         }
     }
-
-  /*  private void getLastcordinates(MouseEvent event, Circle circle) {
-        if (circle.getCenterX() > event.getX()) {
-            circle.setCenterX(event.getX());
-        }
-        if (circle.getCenterY() > event.getY()) {
-            circle.setCenterY(event.getY());
-        }
-
-    }*/
 
     @FXML
     void brushClickPress(MouseEvent event) {

@@ -1,10 +1,7 @@
 package Shapes;
 
-import javafx.event.Event;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.shape.Circle;
-import sample.Controller;
 
 public class MyCircle {
     public static boolean flag;

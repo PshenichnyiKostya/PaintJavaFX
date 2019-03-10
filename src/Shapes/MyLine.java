@@ -8,8 +8,6 @@ public class MyLine {
     public static GraphicsContext paintTool;
 
     public static void drawPressed(ColorPicker colorPick) {
-        /*paintTool.setStroke(linePick.getValue());
-        paintTool.setFill(colorPick.getValue());*/
         paintTool.setStroke(colorPick.getValue());
     }
 }
