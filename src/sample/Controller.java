@@ -1,18 +1,19 @@
 package sample;
 
 import Shapes.*;
+import com.sun.scenario.effect.impl.prism.PrImage;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.*;
 
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ResourceBundle;
 
 
@@ -23,7 +24,7 @@ public class Controller {
     @FXML
     private URL location;
 
-    public static boolean flagShift = false;
+    static boolean flagShift = false;
     @FXML
     private ColorPicker colorPick;
 
@@ -48,40 +49,36 @@ public class Controller {
 
     @FXML
     private Button line;
-
+    @FXML
+    private Slider slider;
+    private static final  int INIT_VALUE=20;
     @FXML
     void initialize() {
+        brushSize.setOnKeyTyped(Event::consume);
         Brush.paintTool = canvas.getGraphicsContext2D();
         MyCircle.paintTool = canvas.getGraphicsContext2D();
         MyEllipse.paintTool = canvas.getGraphicsContext2D();
         MyRectangle.paintTool = canvas.getGraphicsContext2D();
-        MyLine.paintTool=canvas.getGraphicsContext2D();
+        MyLine.paintTool = canvas.getGraphicsContext2D();
         Circle circle = new Circle();
+        slider.setValue(INIT_VALUE);
+        brushSize.setText(new Integer(INIT_VALUE).toString());
+        brushSize.textProperty().bindBidirectional(slider.valueProperty(), NumberFormat.getIntegerInstance());
         Ellipse ellipse = new Ellipse();
         Rectangle rectangle = new Rectangle();
-        Line line=new Line();
-
+        Line line = new Line();
         canvas.setOnMouseDragged(event -> {
             double size;
             size = Double.parseDouble(brushSize.getText());
-            double x = event.getX() - size / 2;
-            double y = event.getY() - size / 2;
-            if (Brush.flag && !brushSize.getText().isEmpty()) {
-                Brush.draw(colorPick, x, y, size);
-            }
+            getCoordinates(event, size);
            /* if (MyCircle.flag) {
 
 
             }*/
-
         });
         canvas.setOnMousePressed(event -> {
             double size = Double.parseDouble(brushSize.getText());
-            double x = event.getX() - size / 2;
-            double y = event.getY() - size / 2;
-            if (Brush.flag && !brushSize.getText().isEmpty()) {
-                Brush.draw(colorPick, x, y, size);
-            }
+            getCoordinates(event, size);
             if (MyCircle.flag) {
                 MyCircle.drawPressed(colorPick, linePick);
                 circle.setCenterX(event.getX());
@@ -97,7 +94,7 @@ public class Controller {
                 rectangle.setX(event.getX());
                 rectangle.setY(event.getY());
             }
-            if (MyLine.flag){
+            if (MyLine.flag) {
                 MyLine.drawPressed(colorPick);
                 line.setStartX(event.getX());
                 line.setStartY(event.getY());
@@ -134,29 +131,14 @@ public class Controller {
             if (MyRectangle.flag && !flagShift) {
                 rectangle.setWidth(Math.abs((event.getX() - rectangle.getX())));
                 rectangle.setHeight(Math.abs((event.getY() - rectangle.getY())));
-                if (rectangle.getX() > event.getX()) {
-                    rectangle.setX(event.getX());
-                }
-                if (rectangle.getY() > event.getY()) {
-                    rectangle.setY(event.getY());
-                }
-
-                MyRectangle.paintTool.fillRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
-                MyRectangle.paintTool.strokeRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+                rectangleDraw(rectangle, event);
             }
             if (MyRectangle.flag && flagShift) {
                 rectangle.setWidth(Math.abs(event.getY() - rectangle.getY()));
                 rectangle.setHeight(rectangle.getWidth());
-                if (rectangle.getX() > event.getX()) {
-                    rectangle.setX(event.getX());
-                }
-                if (rectangle.getY() > event.getY()) {
-                    rectangle.setY(event.getY());
-                }
-                MyRectangle.paintTool.fillRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
-                MyRectangle.paintTool.strokeRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+                rectangleDraw(rectangle, event);
             }
-            if (MyLine.flag){
+            if (MyLine.flag) {
                 line.setEndX(event.getX());
                 line.setEndY(event.getY());
                 MyLine.paintTool.strokeLine(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
@@ -164,6 +146,35 @@ public class Controller {
 
         });
     }
+
+    private void rectangleDraw(Rectangle rectangle, MouseEvent event) {
+        if (rectangle.getX() > event.getX()) {
+            rectangle.setX(event.getX());
+        }
+        if (rectangle.getY() > event.getY()) {
+            rectangle.setY(event.getY());
+        }
+        MyRectangle.paintTool.fillRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+        MyRectangle.paintTool.strokeRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+    }
+
+    private void getCoordinates(MouseEvent event, double size) {
+        double x = event.getX() - size / 2;
+        double y = event.getY() - size / 2;
+        if (Brush.flag && !brushSize.getText().isEmpty()) {
+            Brush.draw(colorPick, x, y, size);
+        }
+    }
+
+  /*  private void getLastcordinates(MouseEvent event, Circle circle) {
+        if (circle.getCenterX() > event.getX()) {
+            circle.setCenterX(event.getX());
+        }
+        if (circle.getCenterY() > event.getY()) {
+            circle.setCenterY(event.getY());
+        }
+
+    }*/
 
     @FXML
     void brushClickPress(MouseEvent event) {

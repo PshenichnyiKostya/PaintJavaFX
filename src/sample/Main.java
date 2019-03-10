@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -15,7 +16,8 @@ public class Main extends Application  {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Paint");
+        primaryStage.getIcons().add(new Image("/icons/icon.png"));
         Scene scene=new Scene(root,600,600);
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override

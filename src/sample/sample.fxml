@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -34,6 +35,7 @@
             <Label layoutX="125.0" layoutY="25.0" prefHeight="17.0" prefWidth="46.0" text="Stroke" textFill="#ebe5e5" />
             <Button fx:id="rectangle" layoutX="416.0" layoutY="-1.0" mnemonicParsing="false" onMouseClicked="#rctClickPress" text="Rectangle" />
             <Button fx:id="line" layoutX="485.0" layoutY="-1.0" mnemonicParsing="false" onMouseClicked="#lineClickPress" text="Line" />
+            <Slider fx:id="slider" layoutX="204.0" layoutY="27.0" />
          </children>
       </AnchorPane>
       <Canvas fx:id="canvas" height="528.0" width="640.0" />
