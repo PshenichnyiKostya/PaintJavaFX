@@ -12,7 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-public class Main extends Application  {
+public class Main extends Application {
     Scene scene;
 
     @Override
@@ -21,30 +21,48 @@ public class Main extends Application  {
         primaryStage.setTitle("Paint");
         primaryStage.getIcons().add(new Image("/icons/icon.png"));
 
-        scene=new Scene(root,600,600);
+        scene = new Scene(root, 600, 600);
         primaryStage.widthProperty().addListener(new ChangeListener<Number>() {
+
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                Controller.canvasHeight = scene.getHeight();
+                Controller.canvasWidth = scene.getWidth();
+                System.out.println(Controller.canvasHeight);
+                System.out.println(Controller.canvasWidth);
+            }
+        });
+        primaryStage.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                Controller.canvasHeight = scene.getHeight();
+                Controller.canvasWidth = scene.getWidth();
+                System.out.println(Controller.canvasHeight);
+                System.out.println(Controller.canvasWidth);
+            }
+        });
+       /* primaryStage.resizableProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 Controller.canvasHeight=scene.getHeight();
                 Controller.canvasWidth =scene.getWidth();
                 System.out.println(Controller.canvasHeight);
                 System.out.println(Controller.canvasWidth);
-//                Controller.canvasChange=true;
             }
-        });
+        });*/
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (event.getCode()== KeyCode.SHIFT){
-                    Controller.flagShift=true;
+                if (event.getCode() == KeyCode.SHIFT) {
+                    Controller.flagShift = true;
                 }
             }
         });
         scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (event.getCode()==KeyCode.SHIFT){
-                    Controller.flagShift=false;
+                if (event.getCode() == KeyCode.SHIFT) {
+                    Controller.flagShift = false;
                 }
             }
         });

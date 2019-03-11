@@ -67,7 +67,6 @@ public class Controller {
 
     @FXML
     void initialize() {
-
         brushSize.setOnKeyTyped(Event::consume);
         Brush.paintTool = canvas.getGraphicsContext2D();
         MyCircle.paintTool = canvas.getGraphicsContext2D();
