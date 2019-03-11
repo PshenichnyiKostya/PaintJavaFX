@@ -1,7 +1,8 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.event.Event;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,13 +13,25 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class Main extends Application  {
+    Scene scene;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Paint");
         primaryStage.getIcons().add(new Image("/icons/icon.png"));
-        Scene scene=new Scene(root,600,600);
+
+        scene=new Scene(root,600,600);
+        primaryStage.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                Controller.canvasHeight=scene.getHeight();
+                Controller.canvasWidth =scene.getWidth();
+                System.out.println(Controller.canvasHeight);
+                System.out.println(Controller.canvasWidth);
+//                Controller.canvasChange=true;
+            }
+        });
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {

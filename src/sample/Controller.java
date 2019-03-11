@@ -1,7 +1,8 @@
 package sample;
 
 import Shapes.*;
-import com.sun.scenario.effect.impl.prism.PrImage;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -19,12 +20,16 @@ import java.util.ResourceBundle;
 
 public class Controller {
     @FXML
+    private Button clear;
+    @FXML
     private ResourceBundle resources;
 
     @FXML
     private URL location;
 
+    static double canvasWidth, canvasHeight;
     static boolean flagShift = false;
+    static boolean canvasChange = false;
     @FXML
     private ColorPicker colorPick;
 
@@ -44,6 +49,7 @@ public class Controller {
     @FXML
     private Button circle;
 
+
     @FXML
     public Canvas canvas;
 
@@ -51,9 +57,17 @@ public class Controller {
     private Button line;
     @FXML
     private Slider slider;
-    private static final  int INIT_VALUE=20;
+    private static final int INIT_VALUE = 20;
+
+
+    public void changeCanvas() {
+        canvas.setWidth(canvasWidth);
+        canvas.setHeight(canvasHeight);
+    }
+
     @FXML
     void initialize() {
+
         brushSize.setOnKeyTyped(Event::consume);
         Brush.paintTool = canvas.getGraphicsContext2D();
         MyCircle.paintTool = canvas.getGraphicsContext2D();
@@ -67,12 +81,21 @@ public class Controller {
         Ellipse ellipse = new Ellipse();
         Rectangle rectangle = new Rectangle();
         Line line = new Line();
+
         canvas.setOnMouseDragged(event -> {
             double size;
             size = Double.parseDouble(brushSize.getText());
             getCoordinates(event, size);
+
+            canvas.setHeight(canvasHeight);
+            canvas.setWidth(canvasWidth);
+
         });
         canvas.setOnMousePressed(event -> {
+
+            canvas.setHeight(canvasHeight);
+            canvas.setWidth(canvasWidth);
+
             double size = Double.parseDouble(brushSize.getText());
             getCoordinates(event, size);
             if (MyCircle.flag) {
@@ -98,6 +121,10 @@ public class Controller {
 
         });
         canvas.setOnMouseReleased(event -> {
+
+            canvas.setHeight(canvasHeight);
+            canvas.setWidth(canvasWidth);
+
             if (MyCircle.flag) {
                 circle.setRadius((Math.abs(event.getX() - circle.getCenterX()) + Math.abs(event.getY() - circle.getCenterY())) / 2);
                 if (circle.getCenterX() > event.getX()) {
@@ -257,4 +284,10 @@ public class Controller {
             line.setStyle("-fx-background-color: white;");
         }
     }
+
+    @FXML
+    void clearClickPress(MouseEvent event) {
+        canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+
 }
